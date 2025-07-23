@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Play, Save, Download, Copy, AlertCircle, CheckCircle, Eye, EyeOff } from 'lucide-react';
 import { LatexRenderer } from '../utils/latexRenderer';
-import FormattingToolbar from './FormattingToolbar';
+// import FormattingToolbar from './FormattingToolbar';
 import 'katex/dist/katex.min.css';
 
 interface EditorProps {

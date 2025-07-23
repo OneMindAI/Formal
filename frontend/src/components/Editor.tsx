@@ -54,6 +54,7 @@ const Editor: React.FC<EditorProps> = ({ content, onChange, darkMode }) => {
   }, [content, processLatexContent]);
 
   const handleCompile = () => {
+    setIsCompiling(true);
     setPreviewContent(processLatexContent(content));
   };
 
@@ -74,8 +75,42 @@ const Editor: React.FC<EditorProps> = ({ content, onChange, darkMode }) => {
     URL.revokeObjectURL(url);
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(content);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(content);
+      // Could add a toast notification here
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error);
+    }
+  };
+
+  // Insert text at cursor position
+  const handleInsertText = (text: string) => {
+    if (textareaRef.current) {
+      const textarea = textareaRef.current;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const newContent = content.substring(0, start) + text + content.substring(end);
+      onChange(newContent);
+      
+      // Move cursor to the end of inserted text
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(start + text.length, start + text.length);
+      }, 0);
+    }
+  };
+
+  // Get compilation status icon
+  const getStatusIcon = () => {
+    switch (compilationStatus) {
+      case 'success':
+        return <CheckCircle size={16} className="text-green-500" />;
+      case 'error':
+        return <AlertCircle size={16} className="text-red-500" />;
+      default:
+        return null;
+    }
   };
 
   return (

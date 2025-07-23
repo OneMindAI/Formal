@@ -60,17 +60,173 @@
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* LaTeX Editor Styles */
+/* Enhanced LaTeX Editor Styles */
 .latex-editor {
-  font-family: 'Monaco', 'Consolas', monospace;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
   font-size: 14px;
+  line-height: 1.6;
+  tab-size: 2;
+  font-feature-settings: "liga" 1, "calt" 1;
+  padding-left: 3rem; /* Account for line numbers */
+}
+
+.latex-editor::selection {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+/* Enhanced LaTeX Preview Styles */
+.latex-preview {
+  font-family: 'Computer Modern', 'Latin Modern Math', 'Times New Roman', serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #1f2937;
+}
+
+.latex-preview.prose-invert {
+  color: #f9fafb;
+}
+
+/* KaTeX Math Rendering Enhancements */
+.math-display {
+  text-align: center;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.math-inline {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.math-environment {
+  background: rgba(59, 130, 246, 0.05);
+  border-left: 4px solid #3b82f6;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border-radius: 0.5rem;
+}
+
+.math-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+}
+
+/* Document Structure Styles */
+.document-title {
+  font-family: 'Computer Modern', serif;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+.document-author {
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 1rem;
+  color: #6b7280;
+}
+
+.document-date {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #9ca3af;
+  margin-bottom: 2rem;
+}
+
+.part-title {
+  page-break-before: always;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 1rem;
+}
+
+.chapter-title {
+  page-break-before: always;
+  color: #1f2937;
+  border-left: 4px solid #3b82f6;
+  padding-left: 1rem;
+}
+
+.section-title {
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+
+.subsection-title {
+  color: #4b5563;
+}
+
+.subsubsection-title {
+  color: #6b7280;
+}
+
+/* Abstract Styling */
+.abstract {
+  background: linear-gradient(145deg, rgba(59, 130, 246, 0.05), rgba(59, 130, 246, 0.02));
+  border-left: 4px solid #3b82f6;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.abstract h4 {
+  color: #1e40af;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* List Enhancements */
+.latex-preview ul, .latex-preview ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.latex-preview li {
+  margin: 0.5rem 0;
   line-height: 1.6;
 }
 
-.latex-preview {
-  font-family: 'Computer Modern', 'Times New Roman', serif;
-  font-size: 16px;
-  line-height: 1.8;
+/* Table Styling */
+.latex-preview table {
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+.latex-preview th, .latex-preview td {
+  border: 1px solid #d1d5db;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.latex-preview th {
+  background: rgba(59, 130, 246, 0.1);
+  font-weight: 600;
+}
+
+/* Code and Verbatim */
+.latex-preview pre {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.latex-preview code {
+  background: rgba(156, 163, 175, 0.2);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.875em;
 }
 
 /* Formal Logo Styling */
@@ -121,10 +277,116 @@
   to { transform: rotate(360deg); }
 }
 
-/* Responsive design */
+/* Formatting Toolbar Enhancements */
+.formatting-toolbar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.math-panel {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.symbol-button {
+  transition: all 0.2s ease;
+}
+
+.symbol-button:hover {
+  transform: scale(1.1);
+}
+
+/* Error and Success States */
+.error-message {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Responsive design enhancements */
 @media (max-width: 768px) {
   .liquid-glass {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }
+  
+  .latex-editor {
+    font-size: 12px;
+    padding-left: 2rem;
+  }
+  
+  .formatting-toolbar {
+    padding: 0.5rem;
+  }
+  
+  .formatting-toolbar .flex {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .latex-preview {
+    font-family: 'Times New Roman', serif;
+    font-size: 12pt;
+    line-height: 1.6;
+    color: black;
+  }
+  
+  .liquid-glass, .liquid-glass-button, .formatting-toolbar {
+    display: none;
+  }
+}
+
+/* Dark mode specific enhancements */
+.dark .latex-preview {
+  color: #f9fafb;
+}
+
+.dark .document-title {
+  color: #f9fafb;
+}
+
+.dark .section-title {
+  color: #e5e7eb;
+  border-bottom-color: #374151;
+}
+
+.dark .abstract {
+  background: linear-gradient(145deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.08));
+  border-left-color: #60a5fa;
+}
+
+.dark .latex-preview pre {
+  background: #1f2937;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+.dark .latex-preview code {
+  background: rgba(75, 85, 99, 0.5);
+  color: #d1d5db;
+}
+
+.dark .latex-preview th {
+  background: rgba(59, 130, 246, 0.2);
+}
+
+.dark .latex-preview td, .dark .latex-preview th {
+  border-color: #4b5563;
 }

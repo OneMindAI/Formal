@@ -115,8 +115,8 @@ const Editor: React.FC<EditorProps> = ({ content, onChange, darkMode }) => {
 
   return (
     <div className="h-full flex flex-col">
-      {/* Advanced Formatting Toolbar */}
-      <FormattingToolbar onInsert={handleInsertText} darkMode={darkMode} />
+      {/* Advanced Formatting Toolbar - Temporarily commented out */}
+      {/* <FormattingToolbar onInsert={handleInsertText} darkMode={darkMode} /> */}
 
       {/* Enhanced Toolbar */}
       <div className="liquid-glass border-b border-white/20 p-4">

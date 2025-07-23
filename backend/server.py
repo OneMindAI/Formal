@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 import logging
 from typing import List, Optional
+from datetime import datetime
 
 from models import DocumentModel, TemplateModel, ChatMessage, DocumentCreate, DocumentUpdate, ChatRequest
 from database import connect_to_mongo, close_mongo_connection, get_collection

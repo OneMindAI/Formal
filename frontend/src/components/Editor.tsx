@@ -1,6 +1,8 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { Play, Save, Download, Copy, AlertCircle, CheckCircle, Eye, EyeOff } from 'lucide-react';
+import { LatexRenderer } from '../utils/latexRenderer';
+import FormattingToolbar from './FormattingToolbar';
 import 'katex/dist/katex.min.css';
-import { Play, Save, Download, Copy } from 'lucide-react';
 
 interface EditorProps {
   content: string;
@@ -11,39 +13,44 @@ interface EditorProps {
 const Editor: React.FC<EditorProps> = ({ content, onChange, darkMode }) => {
   const [previewContent, setPreviewContent] = useState('');
   const [isPreviewMode, setIsPreviewMode] = useState(true);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [isCompiling, setIsCompiling] = useState(false);
+  const [compilationStatus, setCompilationStatus] = useState<'success' | 'error' | 'idle'>('idle');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Process LaTeX content for preview
+  // Advanced LaTeX processing with proper rendering
   const processLatexContent = useCallback((latexContent: string) => {
     try {
-      // Simple processing - in a real app, you'd use a proper LaTeX parser
-      let processed = latexContent;
+      setIsCompiling(true);
       
-      // Convert common LaTeX commands to HTML/React components
-      processed = processed
-        .replace(/\\section\{([^}]+)\}/g, '<h2 class="text-2xl font-bold mb-4 mt-6">$1</h2>')
-        .replace(/\\subsection\{([^}]+)\}/g, '<h3 class="text-xl font-bold mb-3 mt-4">$1</h3>')
-        .replace(/\\textbf\{([^}]+)\}/g, '<strong>$1</strong>')
-        .replace(/\\textit\{([^}]+)\}/g, '<em>$1</em>')
-        .replace(/\\title\{([^}]+)\}/g, '<h1 class="text-4xl font-bold mb-6 text-center">$1</h1>')
-        .replace(/\\author\{([^}]+)\}/g, '<div class="text-lg text-center mb-4 text-gray-600">$1</div>')
-        .replace(/\\date\{([^}]+)\}/g, '<div class="text-center mb-8 text-gray-500">$1</div>')
-        .replace(/\\maketitle/g, '')
-        .replace(/\\begin\{abstract\}/g, '<div class="bg-gray-50 p-4 rounded-lg mb-6"><h4 class="font-bold mb-2">Abstract</h4>')
-        .replace(/\\end\{abstract\}/g, '</div>')
-        .replace(/\\begin\{itemize\}/g, '<ul class="list-disc pl-6 mb-4">')
-        .replace(/\\end\{itemize\}/g, '</ul>')
-        .replace(/\\item\s+/g, '<li class="mb-1">')
-        .replace(/\\par\s+/g, '<p class="mb-4">')
-        .replace(/\n\n/g, '</p><p class="mb-4">');
+      // Validate LaTeX syntax
+      const validation = LatexRenderer.validateLatex(latexContent);
+      setValidationErrors(validation.errors);
 
-      return processed;
+      // Render LaTeX content with advanced processing
+      const rendered = LatexRenderer.renderLatex(latexContent);
+      
+      setCompilationStatus(validation.isValid ? 'success' : 'error');
+      return rendered;
     } catch (error) {
-      return 'Error processing LaTeX content';
+      console.error('LaTeX rendering error:', error);
+      setCompilationStatus('error');
+      setValidationErrors([error instanceof Error ? error.message : 'Unknown rendering error']);
+      return `<div class="error-message text-red-600 p-4 border border-red-300 rounded bg-red-50">
+        <strong>LaTeX Rendering Error:</strong> ${error instanceof Error ? error.message : 'Unknown error'}
+      </div>`;
+    } finally {
+      setIsCompiling(false);
     }
   }, []);
 
+  // Real-time compilation with debouncing
   useEffect(() => {
-    setPreviewContent(processLatexContent(content));
+    const debounceTimer = setTimeout(() => {
+      setPreviewContent(processLatexContent(content));
+    }, 500); // 500ms debounce for better performance
+
+    return () => clearTimeout(debounceTimer);
   }, [content, processLatexContent]);
 
   const handleCompile = () => {
